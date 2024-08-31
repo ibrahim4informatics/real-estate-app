@@ -116,7 +116,7 @@ const createPost = async (req, res) => {
 
         const user = await prisma.user.findUnique({ where: { id } });
         if (!user) return res.status(500).json({ message: "can not create a post at the moment" });
-
+        if (!user.isSeller) return res.status(403).json({ message: "this user can not create a post at the moment" });
         const post = await prisma.post.create({
             data: {
                 title: validator.sanitizeInput(title),
@@ -180,6 +180,7 @@ const updatePost = async (req, res) => {
 
         const user = await prisma.user.findUnique({ where: { id: user_id } });
         if (!user) return res.status(500).json({ message: "can not update post user inforamtion invalid" });
+        if (!user.isSeller) return res.status(403).json({ message: "can not update post user is not a seller" });
         const post = await prisma.post.findUnique({ where: { id, user_id } });
         if (!post) return res.status(404).json({ message: "can not find post to update" });
 
@@ -226,6 +227,7 @@ const deletePostById = async (req, res) => {
     try {
         const user = await prisma.user.findUnique({ where: { id: user_id } });
         if (!user) return res.status(500).json({ message: "can not delete post user inforamtion invalid" });
+        if (!user.isSeller) return res.status(403).json({ message: "can not delete post user is not a seller" });
         const post = await prisma.post.findUnique({ where: { id, user_id } });
         if (!post) return res.status(404).json({ message: "can not find post to delete" });
         await prisma.post.delete({ where: { id } });
@@ -251,6 +253,7 @@ const addMedia = async (req, res) => {
 
         const user = await prisma.user.findUnique({ where: { id: user_id } });
         if (!user) return res.status(500).json({ message: "can not add media user inforamtion invalid" });
+        if (!user.isSeller) return res.status(403).json({ message: "user can not update posts" });
         const post = await prisma.post.findUnique({ where: { id, user_id }, select: { property: { select: { id: true } } } });
         if (!post) return res.status(404).json({ message: "can not find post to add media" });
         const newMedia = await prisma.media.create({ data: { display_url, bucket_url, property_id: post.property.id } });
@@ -272,6 +275,7 @@ const deleteMedia = async (req, res) => {
     try {
         const user = await prisma.user.findUnique({ where: { id: user_id } });
         if (!user) return res.status(500).json({ message: "can not delete media user inforamtion invalid" });
+        if (!user.isSeller) return res.status(403).json({ message: "can not delete media user is not seller" });
         const post = await prisma.post.findUnique({ where: { id: post_id, user_id }, select: { property: { select: { id: true } } } });
         if (!post) return res.status(404).json({ message: "can not find post to delete media" });
 
@@ -279,7 +283,6 @@ const deleteMedia = async (req, res) => {
         if (!media) return res.status(404).json({ message: "can not find media to delete" });
         await prisma.media.delete({ where: { id: Number.parseInt(media_id) } });
         return res.status(200).json({ message: "media deleted successfully" });
-
     }
     catch (err) {
         console.log(err)
