@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum Property_Type {
+  APARTMENT
+  VILLA
+  HOUSE
+  OFFICE
+  STUDIO
+  GARAGE
+  OTHER
+}
+
+enum Property_Status {
+  FOR_SALE
+  FOR_RENT
+  SOLD
+  RENTED
+}
+
+model User {
+  id          String   @id @default(uuid())
+  email       String   @unique @db.VarChar(255)
+  password    String
+  full_name   String   @db.VarChar(100)
+  phone       String
+  avatar      Avatar?
+  isSeller    Boolean  @default(false)
+  isOnline    Boolean  @default(false)
+  posts       Post[]
+  saved_posts Post[]   @relation("favorite")
+  created_at  DateTime @default(now())
+}
+
+model Avatar {
+  id          Int    @id @default(autoincrement())
+  display_url String
+  bucket_url  String
+  user        User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id     String @unique
+}
+
+model Post {
+  id          String    @id @default(uuid())
+  title       String    @db.VarChar(120)
+  description String
+  user        User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  property    Property?
+  saved_by    User[]    @relation("favorite")
+  user_id     String
+  created_at  DateTime  @default(now())
+}
+
+model Media {
+  id          Int      @id @default(autoincrement())
+  display_url String
+  bucket_url  String
+  property    Property @relation(fields: [property_id], references: [id], onDelete: Cascade)
+  property_id String
+}
+
+model Property {
+  id           String          @id @default(uuid())
+  attitude     Decimal
+  longitude    Decimal
+  wilaya       String
+  city         String
+  address      String
+  bed_rooms    Int
+  bath_rooms   Int
+  garages      Int
+  living_rooms Int
+  floor        Int
+  surface      Decimal         @db.Decimal(10, 2)
+  type         Property_Type
+  media        Media[]
+  price        Decimal         @db.Decimal(10, 2)
+  status       Property_Status
+  post         Post            @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  post_id      String          @unique
+}

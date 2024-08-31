@@ -1,0 +1,29 @@
+{
+  "name": "real--estate",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "simple real estate api",
+  "main": "app.js",
+  "author": "ibrahim elkhalil benyahia",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^5.19.0",
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "express-validator": "^7.2.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.14",
+    "xss": "^1.0.15"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "prisma": "^5.19.0"
+  }
+}
