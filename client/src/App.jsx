@@ -5,6 +5,22 @@ import { ShowSignInContext } from "./pages/_Layout";
 import { useState } from "react";
 
 
+import Swiper from 'swiper';
+import { Navigation, Pagination, Scrollbar } from 'swiper/modules';
+
+// Now you can use Swiper
+const swiper = new Swiper('.swiper', {
+  // Install modules
+  modules: [Navigation, Pagination, Scrollbar],
+  speed: 500,
+  mousewheel: { enabled: true },
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+  // ...
+});
+
 
 const routes = createBrowserRouter([
   { path: '/', element: <HomePage />, errorElement: "" },
@@ -19,7 +35,7 @@ function App() {
   return (
     <>
 
-      <ShowSignInContext.Provider  value={{showSignIn,setShowSignIn}}>
+      <ShowSignInContext.Provider value={{ showSignIn, setShowSignIn }}>
         <RouterProvider router={routes} />
       </ShowSignInContext.Provider>
 

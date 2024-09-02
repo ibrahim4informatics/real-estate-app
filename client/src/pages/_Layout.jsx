@@ -8,13 +8,14 @@ import SignIn from '../components/SignIn';
 
 export const ShowSignInContext = createContext();
 
-const Layout = ({ children }) => {
+const Layout = ({ children, navbar, footer }) => {
 
     const SignInAnimated = motion(SignIn);
 
     const { showSignIn, setShowSignIn } = useContext(ShowSignInContext);
     return (
         <Box w={"100%"} minH={'100vh'}>
+            {navbar && <Navbar setShowSignIn={setShowSignIn} />}
             <AnimatePresence>
                 {showSignIn && (
 
@@ -27,7 +28,7 @@ const Layout = ({ children }) => {
             <Box>
                 {children}
             </Box>
-            <Footer />
+            {footer && <Footer />}
         </Box>
 
     )

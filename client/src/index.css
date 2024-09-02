@@ -11,3 +11,20 @@ body{
   /* background-color: red !important; */
  
 }
+
+/* .custom-popup .leaflet-popup-content-wrapper {
+  background-color: red !important;
+} */
+
+.leaflet-container{
+  z-index: 1 !important;
+  background-color: #4f84b6 !important;
+}
+
+
+.pagination{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}

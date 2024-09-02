@@ -20,13 +20,13 @@ const getPosts = async (req, res) => {
                         ...(wilaya ? { wilaya: { contains: wilaya } } : {}),
                         ...(status ? { status: status } : {}),
                         ...(type ? { type: type } : {}),
-                        ...(floor ? { floor: floor } : {}),
-                        ...(bathrooms ? { bathrooms: { gte: bathrooms } } : {}),
-                        ...(bedrooms ? { bedrooms: { gte: bedrooms } } : {}),
-                        ...(living_rooms ? { living_rooms: { gte: living_rooms } } : {}),
-                        ...(garages ? { garages: { gte: garages } } : {}),
-                        ...(min_price || max_price ? { price: { gte: min_price || undefined, lte: max_price || undefined } } : {}),
-                        ...(min_surface || max_surface ? { surface: { gte: min_surface || undefined, lte: max_price || undefined } } : {}),
+                        ...(floor ? { floor: Number.parseInt(floor) } : {}),
+                        ...(bathrooms ? { bath_rooms: { gte: Number.parseInt(bathrooms) } } : {}),
+                        ...(bedrooms ? { bed_rooms: { gte: Number.parseInt(bedrooms) } } : {}),
+                        ...(living_rooms ? { living_rooms: { gte: Number.parseInt(living_rooms) } } : {}),
+                        ...(garages ? { garages: { gte: Number.parseInt(garages) } } : {}),
+                        ...(min_price || max_price ? { price: { gte: Number.parseFloat(min_price) || undefined, lte: Number.parseFloat(max_price) || undefined } } : {}),
+                        ...(min_surface || max_surface ? { surface: { gte: Number.parseFloat(min_surface) || undefined, lte: Number.parseFloat(max_surface) || undefined } } : {}),
 
 
                     }
