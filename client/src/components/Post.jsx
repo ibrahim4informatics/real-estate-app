@@ -10,6 +10,7 @@ import { IoMdEye } from 'react-icons/io';
 
 
 
+
 const Post = ({ id, title, description, price, media, status, surface }) => {
     return (
         <Card mx={{ base: 'auto', lg: 0 }} my={2} width={'100%'} h={650} maxWidth={400}>
@@ -24,13 +25,13 @@ const Post = ({ id, title, description, price, media, status, surface }) => {
             </CardHeader>
             <CardBody>
                 <Heading size={'sm'}>{title}</Heading>
-                <Text fontSize={12} color={'GrayText'} ml={1} mt={2} dangerouslySetInnerHTML={{__html:description.length > 50 ? description.slice(0, 50) + "..." : description }}></Text>
+                <Text fontSize={12} color={'GrayText'} ml={1} mt={2} dangerouslySetInnerHTML={{ __html: description.length > 50 ? description.slice(0, 50) + "..." : description }}></Text>
             </CardBody>
             <CardFooter>
 
                 <Box width={'100%'} display={'flex'} justifyContent={'end'} alignItems={'center'}>
-                    <Button onClick={()=>{console.log('fav ',id)}} mx={2} size={'sm'} colorScheme='orange' leftIcon={<MdStarOutline />}>Favouris</Button>
-                    <Button onClick={()=>{console.log('see ',id)}}  mx={2} size={'sm'} colorScheme='blue' leftIcon={<IoMdEye />}>Voire</Button>
+                    <Button onClick={() => { console.log('fav ', id) }} mx={2} size={'sm'} colorScheme='orange' leftIcon={<MdStarOutline />}>Favouris</Button>
+                    <Button onClick={() => { console.log('see ', id) }} mx={2} size={'sm'} colorScheme='blue' leftIcon={<IoMdEye />}>Voire</Button>
 
                 </Box>
 

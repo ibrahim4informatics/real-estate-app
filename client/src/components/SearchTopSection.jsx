@@ -36,8 +36,7 @@ const SearchTopSection = ({ refContainer, setFilters, filters }) => {
         setSearchParams(filters);
     }
     return (
-        <Box ref={refContainer} width={'100%'} py={2} px={1} display={'flex'} rowGap={2} columnGap={1} alignItems={'center'} flexWrap={'wrap'} >
-            <Button leftIcon={<MdArrowBack />}>Accueil</Button>
+        <Box justifyContent={'center'} ref={refContainer} width={'100%'} py={2} px={1} display={'flex'} rowGap={2} columnGap={1} alignItems={'center'} flexWrap={'wrap'} >
             <InputGroup borderColor={'GrayText'} maxW={350} w={"100%"} ml={2}>
                 <Input onChange={hundleFilterFieldsChange} placeholder='tapez tout ce qui concerne ce que vous voulez...' name='title' />
                 <InputRightElement>

@@ -8,7 +8,7 @@ const getPosts = async (req, res) => {
         min_price, max_price, min_surface, max_surface, page = 1
     } = req.query;
 
-    const pageSize = 30;
+    const pageSize = 20;
     const skip = (page - 1) * pageSize;
     const filter = {
         ...(
@@ -34,12 +34,11 @@ const getPosts = async (req, res) => {
         )
     }
     try {
-        const totalCount = await prisma.post.count({ where: filter });
-        const total_pages = Math.ceil(totalCount / pageSize);
+        const total = await prisma.post.count({ where: filter });
         const posts = await prisma.post.findMany({
             where: filter,
             include: {
-                user: true,
+                user: { include: { avatar: true } },
                 property: {
                     include: { media: true },
                 }
@@ -51,7 +50,7 @@ const getPosts = async (req, res) => {
             skip
         });
 
-        return res.status(200).json({ posts, total_pages, current_page: page });
+        return res.status(200).json({ posts, total });
     }
 
 
@@ -73,7 +72,7 @@ const getPostsById = async (req, res) => {
                 property: {
                     include: { media: true },
                 },
-                user: true,
+                user: { include: { avatar: true } },
 
             }
         });

@@ -14,7 +14,7 @@ const Carrousel = ({ slides }) => {
     return (
         <Swiper
             modules={[Navigation, Pagination, Autoplay, A11y]}
-            spaceBetween={50}
+            spaceBetween={0}
             loop
             slidesPerView={1}
             navigation

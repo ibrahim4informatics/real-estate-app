@@ -6,7 +6,7 @@ import { IoChatboxEllipsesOutline } from 'react-icons/io5';
 import findHouseSvg from '../assets/find_house.svg'
 import heroPic from '../assets/hero2.jpg';
 import Layout, { ShowSignInContext } from './_Layout';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/HomeNavbar';
 const HomePage = ({ }) => {
     const [searchKeywords, setSearchKeywords] = useState("");
 

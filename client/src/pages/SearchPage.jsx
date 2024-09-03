@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Layout from './_Layout'
-import { Box, Heading, Spinner } from '@chakra-ui/react'
-import { useSearchParams } from 'react-router-dom';
+import { Box, Heading, IconButton, Menu, MenuButton, MenuItem, MenuList, Spinner } from '@chakra-ui/react'
+import { Link, useSearchParams } from 'react-router-dom';
 import Map from '../components/Map';
 import Pagination from 'rc-pagination';
 import 'rc-pagination/assets/index.css';
 import SearchTopSection from '../components/SearchTopSection';
 import Post from '../components/Post';
+import Navbar from '../components/HomeNavbar';
+import { MdMenu } from 'react-icons/md';
 
 
 
@@ -69,15 +71,15 @@ const SearchPage = () => {
         }
     }, [seaarchParams])
     return (
-        <Layout navbar={false} footer={false}>
+        <Layout navbar={true} footer={false}>
 
             <SearchTopSection refContainer={topRef} filters={filters} setFilters={setFilters} />
 
             <Box zIndex={0} display={'flex'} h={{ base: 'auto', lg: 'calc(100vh - 56px)' }} w={'100%'} >
 
-                <Box px={2} py={3} overflowY={'auto'} h={'100%'} bg={'white'} flex={1}>
-                    <Heading size={'md'} color={'blue.600'}>Annonces de location {seaarchParams.get('city') && 'Environ ' + seaarchParams.get('city')}</Heading>
-                    <Box my={2} gap={2} display={'flex'} alignItems={'center'} flexWrap={'wrap'}>
+                <Box overflowY={'auto'} h={'100%'} bg={'white'} flex={1}>
+                    <Heading px={4} py={6} size={'md'} color={'blue.600'}>Annonces de location {seaarchParams.get('city') && 'Environ ' + seaarchParams.get('city')}</Heading>
+                    <Box px={2} py={3} my={2} gap={2} display={'flex'} alignItems={'center'} flexWrap={'wrap'}>
 
 
                         <Post title={'Oran Big House For Sold'} status={'FOR_SALE'} description={'&lt;script&gt;console.log(\"fuck\")&lt;/script&gt;'} price={42500000} surface={200} id={'688889a5-f90e-4578-b5fd-6f4fb8379033'} media={[
@@ -119,10 +121,11 @@ const SearchPage = () => {
                             _setSearchParams(newSearchParams);
                         }}
                         current={Number.parseInt(seaarchParams.get('page')) || 1}
-                        total={100}
+                        total={20}
                         pageSize={20}
                         align='center'
                         style={{ marginInline: 'auto' }}
+                        hideOnSinglePage
                     />
 
                 </Box>
