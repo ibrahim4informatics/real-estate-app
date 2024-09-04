@@ -15,6 +15,7 @@
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@fontsource/roboto": "^5.0.14",
+    "axios": "^1.7.7",
     "framer-motion": "^11.3.31",
     "leaflet": "^1.9.4",
     "rc-pagination": "^4.2.0",

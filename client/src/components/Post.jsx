@@ -2,6 +2,7 @@ import { Box, Button, Card, CardBody, CardFooter, CardHeader, Heading, Text } fr
 import Carrousel from './Carrousel';
 import { MdFavorite, MdStarOutline } from 'react-icons/md';
 import { IoMdEye } from 'react-icons/io';
+import { Link } from 'react-router-dom';
 
 
 
@@ -13,7 +14,7 @@ import { IoMdEye } from 'react-icons/io';
 
 const Post = ({ id, title, description, price, media, status, surface }) => {
     return (
-        <Card mx={{ base: 'auto', lg: 0 }} my={2} width={'100%'} h={650} maxWidth={400}>
+        <Card border={'1px solid rgba(0,0,0,0.25)'} mx={{ base: 'auto', lg: 0 }} my={2} width={'100%'}  maxWidth={400}>
             <CardHeader>
                 <Carrousel slides={media} />
 
@@ -31,7 +32,7 @@ const Post = ({ id, title, description, price, media, status, surface }) => {
 
                 <Box width={'100%'} display={'flex'} justifyContent={'end'} alignItems={'center'}>
                     <Button onClick={() => { console.log('fav ', id) }} mx={2} size={'sm'} colorScheme='orange' leftIcon={<MdStarOutline />}>Favouris</Button>
-                    <Button onClick={() => { console.log('see ', id) }} mx={2} size={'sm'} colorScheme='blue' leftIcon={<IoMdEye />}>Voire</Button>
+                    <Button as={Link} to={`/annonces/${id}`} mx={2} size={'sm'} colorScheme='blue' leftIcon={<IoMdEye />}>Voire</Button>
 
                 </Box>
 

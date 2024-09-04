@@ -5,12 +5,13 @@ const validator = new Validator();
 const getPosts = async (req, res) => {
     const {
         city, wilaya, bedrooms, bathrooms, living_rooms, garages, floor, type, status,
-        min_price, max_price, min_surface, max_surface, page = 1
+        min_price, max_price, min_surface, max_surface, page = 1, title
     } = req.query;
 
     const pageSize = 20;
     const skip = (page - 1) * pageSize;
     const filter = {
+        title: { contains: title },
         ...(
             city || wilaya || bathrooms || bedrooms || living_rooms || garages || floor
                 || type || status || min_price || max_price || min_surface || max_surface
