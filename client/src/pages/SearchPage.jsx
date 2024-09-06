@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Layout from './_Layout'
-import { Box, filter, Heading, Spinner, Text } from '@chakra-ui/react'
-import { useSearchParams } from 'react-router-dom';
+import { Box, filter, Heading, IconButton, Spinner, Text } from '@chakra-ui/react'
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Map from '../components/Map';
 import Pagination from 'rc-pagination';
 import 'rc-pagination/assets/index.css';
@@ -117,10 +117,9 @@ const SearchPage = () => {
 
     const [topHeight, setTopHeight] = useState();
     const [fetched, setFeteched] = useState({ data: null, isLoading: true, error: null });
-    const [search, setSearch] = useState("");
+    const containerRef = useRef(null);
     const topRef = useRef();
     const [userLocation, setUserLocation] = useState({ lat: null, long: null, err: null });
-    const [filters, setFilters] = useState({});
     const [seaarchParams, _setSearchParams] = useSearchParams();
 
 
@@ -161,7 +160,7 @@ const SearchPage = () => {
             params
         }).then(response => { setFeteched({ data: response.data, error: null, isLoading: false }) }).catch(error => { console.log(error); setFeteched({ data: null, error: error || "error fetching data", isLoading: false }) })
 
-    }, [])
+    }, [seaarchParams.get('page')])
 
 
 
@@ -181,7 +180,7 @@ const SearchPage = () => {
 
                     <Box zIndex={0} display={'flex'} h={{ base: 'auto', lg: 'calc(100vh - 56px)' }} w={'100%'} >
 
-                        <Box overflowY={'auto'} h={'100%'} bg={'white'} flex={1}>
+                        <Box ref={containerRef} overflowY={'auto'} h={'100%'} bg={'white'} flex={1}>
                             <Heading px={4} py={6} size={'md'} color={'blue.600'}>Annonces de location {seaarchParams.get('city') && 'Environ ' + seaarchParams.get('city')}</Heading>
                             <Box px={2} py={3} my={2} gap={2} display={'flex'} alignItems={'center'} flexWrap={'wrap'}>
 
@@ -197,6 +196,11 @@ const SearchPage = () => {
                                     const newSearchParams = new URLSearchParams(seaarchParams);
                                     newSearchParams.set('page', page);
                                     _setSearchParams(newSearchParams);
+
+                                    if(containerRef){
+                                        containerRef.current.scrollTo({top:0, behaviour:'smooth'});
+                                    }
+
                                 }}
                                 current={Number.parseInt(seaarchParams.get('page')) || 1}
                                 total={fetched.data.total}
@@ -207,9 +211,8 @@ const SearchPage = () => {
                             />
 
                         </Box>
-                        <Box display={{ base: 'none', lg: 'flex' }} w={"50%"} minW={500} maxW={1024} alignItems={'center'} justifyContent={'center'}>
-
-                            {fetched.data.posts.length > 0 && <Map params={seaarchParams} width={"100%"} height={'100%'} center={fetched.data.posts > 0 && fetched.data.posts[0] ? [fetched.data.posts[0].property.attitude, fetched.data.posts[0].property.longitude] : [0, 0]} user_lat={userLocation?.lat} user_lon={userLocation?.long} properties_locations={fetched.data.posts.length > 0 ? fetched.data.posts.map(post => ({ id: post.id, title: post.title, lat: post.property.attitude, long: post.property.longitude })) : null} />}
+                        <Box pos={'relative'} display={{ base: 'none', lg: 'flex' }} w={"50%"} minW={500} maxW={1024} alignItems={'center'} justifyContent={'center'}>
+                            {fetched.data.posts.length > 0 && <Map params={seaarchParams} width={"100%"} height={'100%'} user_lat={userLocation?.lat} user_lon={userLocation?.long} properties_locations={fetched.data.posts.length > 0 ? fetched.data.posts.map(post => ({ id: post.id, title: post.title, lat: post.property.attitude, long: post.property.longitude })) : null} />}
                         </Box>
                     </Box>
                 </>) : <Box width={'100%'} h={'100vh'}><Loader /></Box>

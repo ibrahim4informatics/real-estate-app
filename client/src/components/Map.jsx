@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Popup, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css'
 import 'leaflet/dist/leaflet.css'
-import { Text } from '@chakra-ui/react';
+import { Text, Link } from '@chakra-ui/react';
 import useFowardGeoLocation from '../hooks/useFowardGeoLocation';
 
 
@@ -19,24 +19,11 @@ const RedIcon = new L.icon({
 
 
 
-const Map = ({ width, height, zoom, center, properties_locations, user_lat, user_lon, params }) => {
+const Map = ({ width, height, properties_locations, user_lat, user_lon, params }) => {
 
     const mapRef = useRef(null)
 
-    // useEffect(() => {
-    //     if (mapRef.current !== null) {
-    //         const map = mapRef.current
 
-    //         if ((params.get('city') || params.get('wilaya')) && properties_locations) {
-
-    //             map.flyTo([properties_locations[0].lat, properties_locations[0].long], 9)
-
-    //         }
-    //         else{
-    //             map.flyTo([28.961245, 2.714912], 5)
-    //         }
-    //     }
-    // }, [center, params])
 
     const { coordinates, isLoading, errorMessage } = useFowardGeoLocation(params.get('wilaya'));
 
@@ -68,11 +55,17 @@ const Map = ({ width, height, zoom, center, properties_locations, user_lat, user
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
 
+            {user_lat && user_lon && <Marker position={[user_lat, user_lon]} icon={RedIcon}>
+                    <Popup>
+                        <Text my={1} ml={1} fontSize={12} fontWeight={'bold'} color={'black'}>{`You are here (${user_lat}, ${user_lon})`}</Text>
+                    </Popup>
+                </Marker>}
+
             {properties_locations && properties_locations.length > 0 ? properties_locations.map(property_location => {
                 return (
                     <Marker key={property_location.id} position={[property_location.lat, property_location.long]}>
                         <Popup>
-                            <Text my={1} ml={1} fontSize={12} fontWeight={'bold'} color={'black'}>{property_location.title}</Text>
+                            <Link href={`/annonces/${property_location.id}`} my={1} ml={1} fontSize={12} fontWeight={'bold'} color={'black'}>{property_location.title}</Link>
                         </Popup>
                     </Marker>
                 )
