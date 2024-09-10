@@ -8,8 +8,9 @@ const getUser = async (req, res) => {
     if (!validator.isUUID(id)) return res.status(500).json({ message: "invalid user information" });
     try {
         const user = await prisma.user.findUnique({
-            where: { id }, select: {
-                phone: true, email: true, avatar: true, isSeller: true
+            where: { id },
+            include: {
+                saved_posts: { include: { property: { include: { media: true } } } }, avatar: true, posts: { include: { property: { include: { media: true } } } }
             }
         });
         if (!user) return res.status(404).json({ message: "user does not exist" });
@@ -270,9 +271,9 @@ const getSavedPost = async (req, res) => {
     try {
         const user = await prisma.user.findUnique({
             where: { id }, include: {
-                
+
                 saved_posts: {
-                    include: { property: true, user: true, _count:true },
+                    include: { property: true, user: true, _count: true },
                     where: filter,
                     orderBy: { created_at: 'desc' }
                 }

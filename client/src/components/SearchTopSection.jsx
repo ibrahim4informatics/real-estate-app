@@ -1,30 +1,14 @@
 import React from 'react';
-import { Box, Button, Menu, MenuButton, MenuItem, Heading, IconButton, Input, InputGroup, InputRightElement, Select, Text, MenuList, filter } from '@chakra-ui/react'
-import { MdArrowBack, MdArrowDropDown, MdSearch } from 'react-icons/md';
+import { Box, Button, Menu, MenuButton, MenuItem, Heading, IconButton, Input, InputGroup, InputRightElement, Select, Text, MenuList } from '@chakra-ui/react'
+import { MdArrowDropDown, MdSearch } from 'react-icons/md';
 import { useSearchParams } from 'react-router-dom';
-import axios from '../utils/axios';
+import axios from '../services/config/axios.conf';
 
 const SearchTopSection = ({ refContainer, setFetched }) => {
 
     const [seaarchParams, setSearchParams] = useSearchParams();
 
     const hundleFilterFieldsChange = (e) => {
-        // if (e.target.type === 'number') {
-
-        //     if (e.target.name === 'min_price' || e.target.name === 'max_price' || e.target.name === 'min_surface' || e.target.name === 'max_surface') {
-        //         setFilters(prev => ({ ...prev, [e.target.name]: Number.parseFloat(e.target.value) }))
-        //     }
-
-        //     else {
-        //         setFilters(prev => ({ ...prev, [e.target.name]: Number.parseInt(e.target.value) }));
-        //     }
-
-        // }
-
-        // else {
-        //     setFilters(prev => ({ ...prev, [e.target.name]: e.target.value }));
-        // }
-
         const key = e.target.name;
         const value = e.target.value;
 
@@ -43,9 +27,14 @@ const SearchTopSection = ({ refContainer, setFetched }) => {
 
 
     const hundleFilterSubmit = () => {
-        let params = { page: 1 };
+        let params = {};
+        setFetched({ data: null, isLoading: true, error: null })
+        const urlParams = new URLSearchParams(seaarchParams);
+        urlParams.set('page', '1');
+        setSearchParams(urlParams)
 
         seaarchParams.forEach((value, key) => params[key] = value);
+
         axios.get('/api/posts', { params }).then(res => { setFetched({ data: res.data, error: null, isLoading: false }) }).catch(err => {
             setFetched({ data: null, error: err, isLoading: false });
         })

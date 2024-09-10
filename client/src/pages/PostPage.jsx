@@ -1,4 +1,3 @@
-import React, { useContext, useEffect, useState } from 'react'
 import Layout from './_Layout'
 import { Avatar, Badge, Box, Button, Heading, Table, TableCaption, TableContainer, Tbody, Td, Text, Th, Thead, Tr } from '@chakra-ui/react'
 import Carrousel from '../components/Carrousel'
@@ -6,14 +5,8 @@ import { FaMap } from 'react-icons/fa'
 import { MdChatBubble, MdEmail, MdPhone, MdStar } from 'react-icons/md'
 import { useParams } from 'react-router-dom'
 import SinglePostMap from '../components/SinglePostMap'
-import axios from 'axios'
 import Loader from '../components/Loader'
 import useFetch from '../hooks/useFetch'
-
-
-
-
-
 const PostPage = () => {
     const { id } = useParams()
 

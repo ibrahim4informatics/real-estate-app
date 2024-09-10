@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import axios from "../utils/axios";
+import axios from "../services/config/axios.conf";
 export default (url, deps) => {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);

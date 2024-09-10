@@ -20,11 +20,13 @@ const Carrousel = ({ slides }) => {
             navigation
             autoplay
             pagination={{ clickable: true }}
+
+            style={{zIndex:5}}
             
 
         >
 
-            {slides.map(slide => <SwiperSlide key={slide.id}> <Image width={"100%"} objectFit={'contain'} aspectRatio={'16 / 9'} src={slide.display_url} /> </SwiperSlide>)}
+            {slides.map(slide => <SwiperSlide key={slide.id}> <Image width={"100%"} objectFit={'contain'} aspectRatio={'16 / 9'} src={slide.display_url} loading='lazy' /> </SwiperSlide>)}
 
         </Swiper>
     )
