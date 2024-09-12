@@ -1,9 +1,8 @@
 import React, { useContext } from 'react'
 import { Box, Button, Container, Heading, IconButton, Menu,Link, MenuButton, MenuDivider, MenuItem, MenuList, Text } from '@chakra-ui/react'
-import { MdArrowBackIos, MdHome, MdKey } from 'react-icons/md'
+import { MdArrowBackIos, MdKey } from 'react-icons/md'
 import { IoIosMenu } from 'react-icons/io'
 import {  useNavigate } from 'react-router-dom'
-import { FaListUl, FaUserCircle } from 'react-icons/fa';
 import { ShowSignInContext } from '../pages/_Layout'
 import { BiHome, BiPlus, BiUserCircle } from 'react-icons/bi'
 import { IoChatbubble, IoLogOut, IoMegaphone, IoNotifications, IoStar } from 'react-icons/io5'
@@ -29,7 +28,6 @@ const Navbar = ({ isLogin, isSeller }) => {
 
                         {!isLogin &&
                             <MenuItem as={Button} onClick={() => setShowSignIn(true)} variant={'ghost'} colorScheme='black' leftIcon={<MdKey />} fontWeight={'bold'}>
-
                                 Connecter a Votre Compte
                             </MenuItem>
                         }
@@ -53,7 +51,7 @@ const Navbar = ({ isLogin, isSeller }) => {
                                 <MenuItem as={Link} href='/annonces' transition={'300ms'} _hover={{ color: "black" }} color={'GrayText'} fontSize={16} fontWeight={'bold'}> <IoStar /><Text ml={1}>Favouris</Text></MenuItem >
                                 <MenuItem as={Link} href='/annonces' transition={'300ms'} _hover={{ color: "black" }} color={'GrayText'} fontSize={16} fontWeight={'bold'}> <IoNotifications /><Text ml={1}>Notification</Text></MenuItem >
                                 <MenuItem as={Link} href='/annonces' transition={'300ms'} _hover={{ color: "black" }} color={'GrayText'} fontSize={16} fontWeight={'bold'}> <IoChatbubble /><Text ml={1}>Messages</Text></MenuItem >
-                                <MenuItem as={Link} href='/annonces' transition={'300ms'} _hover={{ color: "black" }} color={'GrayText'} fontSize={16} fontWeight={'bold'}> <IoLogOut /><Text ml={1}>Deconnexion</Text></MenuItem >
+                                <MenuItem as={Link} href='/log-out' transition={'300ms'} _hover={{ color: "black" }} color={'GrayText'} fontSize={16} fontWeight={'bold'}> <IoLogOut /><Text ml={1}>Deconnexion</Text></MenuItem >
 
                             </>
                         )}

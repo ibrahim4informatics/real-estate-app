@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const validator = new Validator();
 
 const SignIn = forwardRef(({ setShowSignIn }, ref) => {
-    
+
     const navigate = useNavigate();
     const [loginData, setLoginData] = useState({ email: "", password: "" });
     const toast = useToast({ position: 'top-left' })
@@ -30,6 +30,7 @@ const SignIn = forwardRef(({ setShowSignIn }, ref) => {
 
         loginRequest.
             then(res => {
+                setShowSignIn(false);
                 if (res.status === 200) return navigate('/profile');
             })
             .catch(err => {
@@ -127,7 +128,7 @@ const SignIn = forwardRef(({ setShowSignIn }, ref) => {
                                 </FormControl>
 
                                 <Button variant={'solid'} w={'full'} colorScheme={'blue'} mt={4} type='submit'>Connexion</Button>
-                                <Link href='#oublier' ><Text w={'full'} color={'blue.600'} mt={4} textAlign={'center'} fontSize={18} fontWeight={'bold'}>mot de passe oublié</Text></Link>
+                                <Link href='/reset/request' ><Text w={'full'} color={'blue.600'} mt={4} textAlign={'center'} fontSize={18} fontWeight={'bold'}>mot de passe oublié</Text></Link>
 
 
 

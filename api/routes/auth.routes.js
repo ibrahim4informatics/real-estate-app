@@ -4,7 +4,7 @@ import { changePassword, isValidResetPasswordUrl, loginUser, registerUser, reset
 const router = express.Router();
 router.post('/login', loginUser);
 router.post('/register', registerUser);
-router.post('/logout', logoutUser)
+router.get('/logout', logoutUser)
 router.post('/reset', resetPassword);
 router.get('/reset', isValidResetPasswordUrl);
 router.post('/change', changePassword);

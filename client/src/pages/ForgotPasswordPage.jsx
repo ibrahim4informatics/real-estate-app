@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Layout from './_Layout'
-import { Box, Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, InputLeftElement, Spinner, Text, useToast } from '@chakra-ui/react'
-import useFetch from '../hooks/useFetch'
+import { Box, Button, FormControl, FormErrorMessage, FormLabel, Heading, Input, InputGroup, InputLeftElement, Spinner, Text, useToast } from '@chakra-ui/react'
+
 import { useNavigate } from 'react-router-dom'
 import Loader from '../components/Loader'
 import { IoMailOutline } from 'react-icons/io5'
@@ -18,7 +18,7 @@ const ForgotPasswordPage = () => {
     const navigate = useNavigate();
     const toast = useToast();
 
-    const { isLoading, isLogin } = useAuth('/annonces');
+    const { isLoading, isLogin } = useAuth('');
 
     const hundleSubmit = (e) => {
         e.preventDefault();
@@ -44,41 +44,39 @@ const ForgotPasswordPage = () => {
         })
 
     }
-
-    // useEffect(() => {
-    //     if (isLogin) return navigate('/annonces');
-    // }, [isLoading])
-
-
     return (
-        !isLoading && (<Layout home_navbar={true} footer={true}>
+        <Layout home_navbar={true} footer={true}>
 
 
             <Box h={'calc(100vh - 240px)'}>
-                <Box width={'100%'} h={'70px'}></Box>
+                {!isLoading && !isLogin ? (
+                    <>
+                        <Box width={'100%'} h={'70px'}></Box>
 
-                <Box mx={'auto'} mt={3} w={'90%'} maxW={'650px'} p={4} h={'auto'}>
-                    <Heading color={'blue.600'}>Mot de passe oublié?</Heading>
-                    <Text color={'GrayText'} ml={1} my={2}>tapez votre email, nous vous enverrons un lien de réinitialisation de mot de passe</Text>
+                        <Box mx={'auto'} mt={3} w={'90%'} maxW={'650px'} p={4} h={'auto'}>
+                            <Heading color={'blue.600'}>Mot de passe oublié?</Heading>
+                            <Text color={'GrayText'} ml={1} my={2}>tapez votre email, nous vous enverrons un lien de réinitialisation de mot de passe</Text>
 
-                    <form onSubmit={hundleSubmit}>
-                        <FormControl isRequired isInvalid={emailError ? true : false}>
-                            {metaData.isSent !== null && (metaData.isSent ? <Box w={'100%'} py={2} bg={'green.200'} rounded={'md'} pl={2} fontWeight={'bold'} color={'green.600'}>e-mail envoyé, vérifiez votre boîte de réception</Box> : <Box w={'100%'} py={2} bg={'red.200'} rounded={'md'} pl={2} fontWeight={'bold'} color={'red.600'}>l'email n'a pas été envoyé vérifiez vos informations</Box>)}
-                            <FormLabel>Email</FormLabel>
-                            <InputGroup size={'lg'}>
-                                <Input value={email} onChange={(e) => setEmail(e.target.value)} type='email' borderColor={'GrayText'} />
-                                <InputLeftElement><IoMailOutline /></InputLeftElement>
-                            </InputGroup>
-                            <FormErrorMessage>{emailError}</FormErrorMessage>
-                            <Button isLoading={metaData.isLoading ? true : false} spinner={<Spinner size={'sm'} />} my={4} type='submit' colorScheme='blue' w={'full'} size={'lg'}>Envoyer</Button>
-                        </FormControl>
-                    </form>
-                </Box >
+                            <form onSubmit={hundleSubmit}>
+                                <FormControl isRequired isInvalid={emailError ? true : false}>
+                                    {metaData.isSent !== null && (metaData.isSent ? <Box w={'100%'} py={2} bg={'green.200'} rounded={'md'} pl={2} fontWeight={'bold'} color={'green.600'}>e-mail envoyé, vérifiez votre boîte de réception</Box> : <Box w={'100%'} py={2} bg={'red.200'} rounded={'md'} pl={2} fontWeight={'bold'} color={'red.600'}>l'email n'a pas été envoyé vérifiez vos informations</Box>)}
+                                    <FormLabel>Email</FormLabel>
+                                    <InputGroup size={'lg'}>
+                                        <Input value={email} onChange={(e) => setEmail(e.target.value)} type='email' borderColor={'GrayText'} />
+                                        <InputLeftElement><IoMailOutline /></InputLeftElement>
+                                    </InputGroup>
+                                    <FormErrorMessage>{emailError}</FormErrorMessage>
+                                    <Button isLoading={metaData.isLoading ? true : false} spinner={<Spinner size={'sm'} />} my={4} type='submit' colorScheme='blue' w={'full'} size={'lg'}>Envoyer</Button>
+                                </FormControl>
+                            </form>
+                        </Box >
+                    </>
+                ) : <Loader />}
             </Box>
 
 
 
-        </Layout>)
+        </Layout>
 
     )
 }

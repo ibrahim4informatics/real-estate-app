@@ -56,11 +56,19 @@ const registerUser = async (req, res) => {
         return res.status(500).json({ message: "an error occurred while processing your request" });
     }
 }
-const logoutUser = (req, res) => {
+const logoutUser = async (req, res) => {
     res.cookie('access', null, { maxAge: 0 });
     res.cookie('refresh', null, { maxAge: 0 });
-    // todo ; make user online false
-    return res.status(200).json({ message: "user logged out successfully" });
+
+    try {
+        await prisma.user.update({ where: { id: req.user.id }, data: { isOnline: false } });
+
+        return res.status(200).json({ message: "user logged out successfully" });
+    }
+    catch (err) {
+        console.log(err)
+        return res.status(500).json({ message: err || 'Unknonw sevrer error' });
+    }
 }
 const resetPassword = async (req, res) => {
     const { email } = req.body;

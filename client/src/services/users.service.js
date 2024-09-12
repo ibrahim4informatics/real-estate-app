@@ -27,4 +27,5 @@ const deleteAvatar = () => new Promise((resolve, reject) => {
 });
 
 
+
 export { getUser, changeAvatar, deleteAvatar, updateUserPersonelInfo }

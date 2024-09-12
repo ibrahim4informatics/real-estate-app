@@ -15,7 +15,9 @@ const loginUser = async (email, password) =>
     })
 
 
-
+const logoutUser = ()=> new Promise((resolve, reject)=>{
+    axios.get('/api/auth/logout').then(res => resolve(res)).catch(err => reject(err.response))
+})
 
 const forgotPassword = async (email) => new Promise((resolve, reject) => {
     axios.post('/api/auth/reset', { email }).
@@ -40,4 +42,4 @@ const validateForgotPassword = async (token) => {
 
 }
 
-export { registerUser, loginUser, forgotPassword, validateForgotPassword }
+export { registerUser, loginUser, forgotPassword, validateForgotPassword, logoutUser }
