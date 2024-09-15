@@ -100,10 +100,10 @@ const changePassword = async (req, res) => {
 }
 const changeEmail = async (req, res) => {
     const { id } = req.user;
-    const { password, newEmail } = req.body;
+    const { password, email } = req.body;
 
     if (!validator.isUUID(id)) return res.status(500).json({ message: "invalid user information" });
-    if (!validator.isEmail(newEmail)) return res.status(400).json({ message: "invalid email" });
+    if (!validator.isEmail(email)) return res.status(400).json({ message: "invalid email" });
     try {
 
         const user = await prisma.user.findUnique({ where: { id } });
@@ -111,7 +111,7 @@ const changeEmail = async (req, res) => {
         if (!await comparePassword(validator.sanitizeInput(password), user.password)) return res.status(403).json({ message: "invalid password" });
         await prisma.user.update({
             where: { id },
-            data: { email: validator.sanitizeInput(newEmail) }
+            data: { email: validator.sanitizeInput(email) }
         });
 
         return res.status(200).json({ message: "email changed successfully" });

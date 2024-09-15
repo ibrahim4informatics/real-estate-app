@@ -69,6 +69,7 @@ const getPostsById = async (req, res) => {
         const post = await prisma.post.findUnique({
             where: { id },
             include: {
+                
                 saved_by: true,
                 property: {
                     include: { media: true },

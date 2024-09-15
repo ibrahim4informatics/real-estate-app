@@ -46,8 +46,8 @@ model User {
 
 model Avatar {
   id          Int    @id @default(autoincrement())
-  display_url String
-  bucket_url  String
+  display_url String @db.LongText
+  bucket_url  String @db.LongText
   user        User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
   user_id     String @unique
 }
@@ -55,7 +55,7 @@ model Avatar {
 model Post {
   id          String    @id @default(uuid())
   title       String    @db.VarChar(120)
-  description String
+  description String @db.LongText
   user        User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
   property    Property?
   saved_by    User[]    @relation("favorite")
@@ -65,8 +65,8 @@ model Post {
 
 model Media {
   id          Int      @id @default(autoincrement())
-  display_url String
-  bucket_url  String
+  display_url String @db.LongText
+  bucket_url  String @db.LongText
   property    Property @relation(fields: [property_id], references: [id], onDelete: Cascade)
   property_id String
 }
