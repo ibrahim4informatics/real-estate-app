@@ -37,7 +37,8 @@ const PostPage = () => {
                         <Box marginInline={{ base: 'auto', lg: 0 }} w={"100%"} maxW={650} my={4}>
                             <Carrousel slides={data.post.property.media} />
                         </Box>
-                        <Box w={"100%"} dangerouslySetInnerHTML={{ __html: data.post.description }}></Box>
+                        <Heading mt={2} mb={1}>Description</Heading>
+                        <Box ml={1}  w={"100%"} dangerouslySetInnerHTML={{ __html: data.post.description }}></Box>
 
                         <Box py={4} my={2}>
                             <Heading mb={2} size={'md'} textAlign={{ base: 'center' }}>Detailles</Heading>

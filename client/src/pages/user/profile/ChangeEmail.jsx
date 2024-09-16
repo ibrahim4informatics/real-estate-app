@@ -1,15 +1,20 @@
-import { Box, Button, FormControl, FormHelperText, FormLabel, Heading, Input, InputGroup, InputLeftElement } from '@chakra-ui/react'
+import { Box, Button, FormControl, FormHelperText, FormLabel, Heading, Input, InputGroup, InputLeftElement, useToast } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import Layout from '../../_Layout'
 import { MdEmail, MdLock } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import useAuth from '../../../hooks/useAuth'
-import Loader from '../../../components/Loader'
+import Loader from '../../../components/Loader';
+import Validator from '../../../utils/validations'
+import { changeEmail } from '../../../services/users.service'
+
+const validator = new Validator()
 
 const ChangeEmail = () => {
   const [data, setData] = useState({ email: '', password: '' });
   const [dataError, setDataErrors] = useState({ email: '', password: '' });
   const navigate = useNavigate();
+  const toast = useToast({ position: 'top-left', isClosable: true, duration: 3000 });
   const { isLoading, isLogin } = useAuth();
 
   useEffect(() => {
@@ -28,9 +33,21 @@ const ChangeEmail = () => {
 
     //todo validate information
 
+    if (!validator.isEmail(data.email)) setDataErrors({ ...dataError, email: 'addresse email invalide' });
+    if (!data.password) setDataErrors({ ...dataError, password: 'ce champ est obligatoire' });
     //todo call api endpoint
+    if (validator.isEmail(data.email) && data.password) {
+      const requestChangeEmail = changeEmail(data.email, data.password);
+      requestChangeEmail.then(res => navigate('/profile')).catch(err => console.log(err));
 
-    console.log(data);
+      toast.promise(requestChangeEmail, {
+        success: { title: "E-mail modifié", description: 'Votre email a changé avec succès' },
+        loading: { title: "E-mail Encours de Modefication", description: 'Votre demande est encours d\'execution' },
+        error: { title: "Erreur de Modification", description: 'Une erreur s\'est produite lors de la modification de votre email' },
+      });
+    }
+
+    return;
   }
 
   return (

@@ -12,6 +12,7 @@ import ChangeEmail from "./pages/user/profile/ChangeEmail";
 import ChangePassword from "./pages/user/profile/ChangePassword";
 import ResetPassword from "./pages/ResetPassword";
 import Create from "./pages/user/posts/Create";
+import EditPost from "./pages/user/posts/EditPost";
 
 
 
@@ -24,8 +25,9 @@ const routes = createBrowserRouter([
   { path: '/reset/request', element: <ForgotPasswordPage />, errorElement: "" },
   { path: '/profile', element: <ProfilePage />, errorElement: '' },
   { path: '/profile/edit', element: <Edit />, errorElement: '' },
-  { path: '/profile/annonces/create', element: <Create />, errorElement: '' },
+  { path: '/ajouter', element: <Create />, errorElement: '' },
   { path: '/annonces', element: <SearchPage />, errorElement: "" },
+  { path: '/user/annonce/modefier/:post_id', element: <EditPost />, errorElement: "" },
   { path: '/annonces/:id', element: <PostPage />, errorElement: "" },
 
 ])

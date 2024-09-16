@@ -65,7 +65,7 @@ const Edit = () => {
             })
         }
 
-        const uploadRequest = uploadSingleFile(file)
+        const uploadRequest = uploadSingleFile(file, `${user.id}/avatar/`)
         uploadRequest.then(success => { console.log('success', success); setFileData({ display_url: success.display_url, bucket_url: success.bucket_url }) })
             .catch(error => { console.log('error', error) });
 

@@ -15,14 +15,14 @@ const Carrousel = ({ slides }) => {
         <Swiper
             modules={[Navigation, Pagination, Autoplay, A11y]}
             spaceBetween={0}
-            loop
+            loop = {slides.length > 1}
             slidesPerView={1}
             navigation
-            autoplay
+            autoplay={slides.length > 1}
             pagination={{ clickable: true }}
 
-            style={{zIndex:5}}
-            
+            style={{ zIndex: 5 }}
+
 
         >
 

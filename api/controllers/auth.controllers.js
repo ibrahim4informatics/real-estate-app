@@ -84,7 +84,7 @@ const resetPassword = async (req, res) => {
             from: "<REAL ESTATE>",
             to: user.email,
             subject: "Reset Password",
-            text: `Click on the link below to reset your password: ${process.env.CLIENT_URL}/reset-password?token=${token}`,
+            text: `Click on the link below to reset your password: ${process.env.CLIENT_URL}/reset?token=${token}`,
         })
         if (!mail.status) {
             console.error("Failed to send email\n", mail.error);
@@ -120,9 +120,9 @@ const changePassword = async (req, res) => {
     const { password, confirm } = req.body;
     const { token } = req.query;
     if (!token) return res.status(403).json({ message: "missing token" });
-    if (!password || !confirm) return res.status(403).json({ message: "missing required fields" });
+    if (!password || !confirm) return res.status(400).json({ message: "missing required fields" });
     if (!validator.isStrongPassword(validator.sanitizeInput(password))) return res.status(400).json({ message: "invalid password <does not fill the constraints>" });
-    if (password !== confirm) return res.status(403).json({ message: "passwords do not match" });
+    if (password !== confirm) return res.status(400).json({ message: "passwords do not match" });
     try {
         const { status, data } = verifyToken(token, process.env.RESET_SECRET);
         if (!status) {

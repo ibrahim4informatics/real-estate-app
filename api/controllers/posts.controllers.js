@@ -95,7 +95,7 @@ const createPost = async (req, res) => {
 
 
     if (!validator.isUUID(id)) return res.status(400).json({ message: "invalid user informations" });
-    if (!title || !description || !attitude || !longitude || !address || !wilaya || !city || !bed_rooms || !bath_rooms || !garages || !living_rooms || floor === undefined || !surface || !type || !media || !price || !status) return res.status(400).json({ message: "missing required fields" });
+    if (!title || !description || !attitude || !longitude || !address || !wilaya || !city || bed_rooms === undefined || bath_rooms === undefined || garages === undefined || living_rooms === undefined || floor === undefined || !surface || !type || !media || !price || !status) return res.status(400).json({ message: "missing required fields" });
     if (type !== 'APARTMENT' && type !== "VILLA" && type !== "HOUSE" && type !== "OFFICE" && type !== "STUDIO" && type !== "GARAGE" && type !== "OTHER") return res.status(400).json({ message: "invalid type provided" });
     if (status !== "FOR_SALE" && status !== "FOR_RENT" && status !== "SOLD" && status !== "RENTED") return res.status(400).json({ message: "invalid status provided" });
 

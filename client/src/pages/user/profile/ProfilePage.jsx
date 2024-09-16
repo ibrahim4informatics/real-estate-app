@@ -18,6 +18,7 @@ const ProfilePage = () => {
 
     useEffect(() => {
         if (!isLoading && !isLogin) return navigate('/')
+        console.log(user)
     }, [isLoading])
     return (
         isLoading ? (<Box w={'100%'} h={'100vh'}><Loader /></Box>) : (<Layout navbar={true} home_navbar={false} footer={true} >
@@ -93,7 +94,8 @@ const ProfilePage = () => {
                                 <Heading as={'h3'} size={'md'} ml={2}>Mes Annonces</Heading>
                             </Box>
                             <Box bg={'white'} display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'} justifyContent={'center'}>
-                                {user.posts.length > 0 ? (user.saved_posts.map(post => <Post key={post.id} id={post.id} title={post.title} description={post.description} media={post.property.media} price={post.property.price} status={post.property.status} surface={post.property.surface} isOwn={true} />)) : <Text color={'GrayText'} mt={2} ml={4}>Pas D'annonces Publier</Text>}
+                        
+                                {user.posts.length > 0 ? (user.posts.map(post => <Post key={post.id} id={post.id} title={post.title} description={post.description} media={post.property.media} price={post.property.price} status={post.property.status} surface={post.property.surface} isOwn={true} />)) : <Text color={'GrayText'} mt={2} ml={4}>Pas D'annonces Publier</Text>}
                             </Box>
                         </Box>)}
                     </Box>
