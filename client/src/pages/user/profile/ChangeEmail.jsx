@@ -1,54 +1,20 @@
-import { Box, Button, FormControl, FormHelperText, FormLabel, Heading, Input, InputGroup, InputLeftElement, useToast } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
-import Layout from '../../_Layout'
-import { MdEmail, MdLock } from 'react-icons/md'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAuth from '../../../hooks/useAuth'
-import Loader from '../../../components/Loader';
-import Validator from '../../../utils/validations'
-import { changeEmail } from '../../../services/users.service'
 
-const validator = new Validator()
+import { Box, Heading } from '@chakra-ui/react'
+import Layout from '../../_Layout'
+import Loader from '../../../components/Loader';
+import ChangeEmailForm from '../../../components/forms/ChangeEmailForm'
+
+
 
 const ChangeEmail = () => {
-  const [data, setData] = useState({ email: '', password: '' });
-  const [dataError, setDataErrors] = useState({ email: '', password: '' });
   const navigate = useNavigate();
-  const toast = useToast({ position: 'top-left', isClosable: true, duration: 3000 });
   const { isLoading, isLogin } = useAuth();
-
   useEffect(() => {
     if (!isLoading && !isLogin) return navigate('/')
   }, [isLoading])
-
-
-  const hundleInputChange = (e) => {
-    setDataErrors(prev => ({ ...prev, [e.target.name]: '' }));
-    setData(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    return;
-  }
-
-  const hundleSubmit = (e) => {
-    e.preventDefault();
-
-    //todo validate information
-
-    if (!validator.isEmail(data.email)) setDataErrors({ ...dataError, email: 'addresse email invalide' });
-    if (!data.password) setDataErrors({ ...dataError, password: 'ce champ est obligatoire' });
-    //todo call api endpoint
-    if (validator.isEmail(data.email) && data.password) {
-      const requestChangeEmail = changeEmail(data.email, data.password);
-      requestChangeEmail.then(res => navigate('/profile')).catch(err => console.log(err));
-
-      toast.promise(requestChangeEmail, {
-        success: { title: "E-mail modifié", description: 'Votre email a changé avec succès' },
-        loading: { title: "E-mail Encours de Modefication", description: 'Votre demande est encours d\'execution' },
-        error: { title: "Erreur de Modification", description: 'Une erreur s\'est produite lors de la modification de votre email' },
-      });
-    }
-
-    return;
-  }
 
   return (
     <Layout navbar={true} footer={true}>
@@ -56,28 +22,7 @@ const ChangeEmail = () => {
         {!isLoading && isLogin ? (
           <Box width={'100%'} maxW={400} mx={'auto'} mt={4}>
             <Heading color={'blue.600'} my={4}>Changer Votre Email</Heading>
-            <form onSubmit={hundleSubmit} action="">
-
-              <FormControl my={4} isRequired isInvalid={false}>
-                <FormLabel>New Email</FormLabel>
-                <InputGroup size={'lg'}>
-                  <Input name='email' type='email' onChange={hundleInputChange} borderColor={'GrayText'} />
-                  <InputLeftElement><MdEmail /></InputLeftElement>
-                </InputGroup>
-              </FormControl>
-
-              <FormControl my={4} isRequired isInvalid={false}>
-                <FormLabel>Mots de Pass</FormLabel>
-                <InputGroup size={'lg'}>
-                  <Input borderColor={'GrayText'} name='password' type='password' onChange={hundleInputChange} />
-                  <InputLeftElement><MdLock /></InputLeftElement>
-                </InputGroup>
-                <FormHelperText>vous devez entrer le mots de passe de votre compte pour changer l'email</FormHelperText>
-              </FormControl>
-
-              <Button size={'lg'} w={'full'} colorScheme='blue' type='submit' my={4}>Changer</Button>
-
-            </form>
+            <ChangeEmailForm />
           </Box>
         ) : <Loader />}
       </Box>

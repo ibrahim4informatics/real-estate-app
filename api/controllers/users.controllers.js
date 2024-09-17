@@ -107,7 +107,9 @@ const changeEmail = async (req, res) => {
     try {
 
         const user = await prisma.user.findUnique({ where: { id } });
+        const emailTaken = await prisma.user.findUnique({ where: { email } });
         if (!user) return res.status(404).json({ message: "user does not exist" });
+        if (emailTaken) return res.status(400).json({ message: "email already taken" });
         if (!await comparePassword(validator.sanitizeInput(password), user.password)) return res.status(403).json({ message: "invalid password" });
         await prisma.user.update({
             where: { id },
@@ -144,7 +146,7 @@ const changeAvatar = async (req, res) => {
             where: { user_id: id },
             data: { display_url, bucket_url }
         });
-        return res.status(200).json({ message: 'avatar changed successfully' });
+        return res.status(200).json({ message: 'avatar changed successfully', avatar });
     }
 
     catch (err) {

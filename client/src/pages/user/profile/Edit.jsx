@@ -8,21 +8,17 @@ import Loader from '../../../components/Loader'
 import { deleteSingleImage, uploadSingleFile } from '../../../services/firebase.service'
 import { changeAvatar, deleteAvatar, updateUserPersonelInfo } from '../../../services/users.service'
 import Validator from '../../../utils/validations'
+import EditProfileForm from '../../../components/forms/EditProfileForm'
+import ChangeAvatar from '../../../components/ChangeAvatar'
 
 const Edit = () => {
     const [data, setData] = useState({});
     const [dataErrors, setDataErrors] = useState({});
     const toast = useToast({ position: 'top-left', isClosable: true, duration: 3000 });
-    const [fileData, setFileData] = useState({ display_url: "", bucket_url: "" });
-    const validator = new Validator();
     const { user, isLoading, isLogin } = useAuth()
-    const hundleChange = (e) => {
-        setDataErrors({ ...dataErrors, [e.target.name]: '' })
-        if (e.target.name === 'isSeller') {
-            return setData({ ...data, [e.target.name]: e.target.value === 'Vendeur' ? true : false })
-        }
-        return setData({ ...data, [e.target.name]: e.target.value });
-    }
+    const [fileData, setFileData] = useState(user?.avatar);
+    const validator = new Validator();
+
 
     const hundleDeleteAvatar = () => {
         if (!fileData.bucket_url) return
@@ -126,85 +122,23 @@ const Edit = () => {
                     </TabList>
                     <TabPanels>
                         <TabPanel>
-                            <form onSubmit={hundleSubmit}>
-
-                                <FormControl my={2}>
-                                    <FormLabel>Nom Complet</FormLabel>
-                                    <Input value={data.full_name || ''} onChange={hundleChange} name='full_name' type='text' borderColor={'GrayText'} />
-                                </FormControl>
-
-                                <FormControl isInvalid={dataErrors?.phone ? true : false} my={2}>
-                                    <FormLabel>Tel</FormLabel>
-                                    <Input value={data.phone || ''} onChange={hundleChange} name='phone' type='text' borderColor={'GrayText'} />
-                                    <FormErrorMessage >{dataErrors?.phone}</FormErrorMessage>
-                                </FormControl>
-
-                                <FormControl my={2}>
-                                    <FormLabel>Role</FormLabel>
-                                    <Select value={data.isSeller ? 'Vendeur' : 'Client'} onChange={hundleChange} name='isSeller' borderColor={'GrayText'} >
-                                        <option value="Vendeur">Vendeur</option>
-                                        <option value="Client">Client</option>
-                                    </Select>
-                                </FormControl>
-
-                                <Button colorScheme='blue' size={'lg'} w={'full'} my={2} type='submit' leftIcon={<MdSave />}>Sauvgarder</Button>
-
-                            </form>
+                            <EditProfileForm user={user} />
                         </TabPanel>
                         <TabPanel>
-                            <Box w={'100%'} p={5} display={'flex'} flexDir={'column'} alignItems={'center'}>
-                                <Avatar my={4} size={'xl'} src={fileData.display_url || null} alt='profile' />
-                                <Box w={'full'} my={2} as={Button} colorScheme='blue'>
-                                    <Text pos={'absolute'} textAlign={'center'}>{fileData.display_url ? 'Changer' : 'Ajouter'} Avatar</Text>
-                                    <input onChange={hundleAvatarChange} multiple={false} accept='image/png, image/jpeg' type='file' style={{ background: 'green', width: "100%", height: "100%", opacity: 0 }} />
-                                </Box>
-                                {fileData.display_url && <Button onClick={submitAvatar} w={'full'} my={2} colorScheme='green'>Sauvgarder</Button>}
-                                {fileData.display_url && <Button onClick={hundleDeleteAvatar} colorScheme='red' w={'full'}>Supprimer Avatar</Button>}
-                            </Box>
+                            <ChangeAvatar avatar={fileData} setAvatar={setFileData} user={user} />
                         </TabPanel>
                     </TabPanels>
                 </Tabs>
 
-                <Box w={'100%'} display={{ base: 'none', md: 'flex' }} h={'100vh'} alignItems={'center'} justifyContent={'center'}>
+                <Box w={'100%'} gap={4} display={{ base: 'none', md: 'flex' }} h={'100vh'} alignItems={'center'} justifyContent={'center'}>
                     <Box w={'80%'} maxW={720} bg={'white'} p={5} display={'flex'}>
                         <Box flex={1}>
                             <Heading size={'md'}>Modefier Votre Profile</Heading>
-                            <form onSubmit={hundleSubmit}>
+                            <EditProfileForm user={user} />
 
-                                <FormControl my={2}>
-                                    <FormLabel>Nom Complet</FormLabel>
-                                    <Input value={data.full_name || ''} onChange={hundleChange} name='full_name' type='text' borderColor={'GrayText'} />
-                                </FormControl>
-
-                                <FormControl isInvalid={dataErrors?.phone ? true : false} my={2}>
-                                    <FormLabel>Tel</FormLabel>
-                                    <Input value={data.phone || ''} onChange={hundleChange} name='phone' type='text' borderColor={'GrayText'} />
-                                    <FormErrorMessage>{dataErrors?.phone}</FormErrorMessage>
-                                </FormControl>
-
-                                <FormControl my={2}>
-                                    <FormLabel>Role</FormLabel>
-                                    <Select value={data.isSeller ? 'Vendeur' : 'Client'} onChange={hundleChange} name='isSeller' borderColor={'GrayText'} >
-                                        <option value="Vendeur">Vendeur</option>
-                                        <option value="Client">Client</option>
-                                    </Select>
-                                </FormControl>
-
-                                <Button colorScheme='blue' size={'lg'} w={'full'} my={2} type='submit' leftIcon={<MdSave />}>Sauvgarder</Button>
-
-                            </form>
-
-                        </Box>
-                        <Box w={250} justifyContent={'center'} p={5} display={'flex'} flexDir={'column'} alignItems={'center'}>
-                            <Avatar my={4} size={'xl'} src={fileData.display_url} alt='profile' />
-                            <Box w={'full'} my={2} as={Button} colorScheme='blue'>
-                                <Text pos={'absolute'} textAlign={'center'}>{fileData.display_url ? 'Changer' : 'Ajouter'} Avatar</Text>
-                                <input onChange={hundleAvatarChange} accept='image/png, image/jpeg' type='file' style={{ background: 'green', width: "100%", height: "100%", opacity: 0 }} />
-                            </Box>
-                            {fileData.display_url && <Button onClick={submitAvatar} w={'full'} my={2} colorScheme='green'>Sauvgarder</Button>}
-                            {fileData.display_url && <Button onClick={hundleDeleteAvatar} colorScheme='red' w={'full'}>Supprimer Avatar</Button>}
                         </Box>
                     </Box>
+                        <ChangeAvatar avatar={fileData} setAvatar={setFileData} user={user} />
                 </Box>
             </Box>
         </Layout>) : <Box w={'100%'} h={'100vh'}><Loader /></Box>

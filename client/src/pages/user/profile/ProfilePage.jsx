@@ -41,10 +41,7 @@ const ProfilePage = () => {
                                 <Text px={3} color={'GrayText'} borderRight={'solid 1px rgba(0,0,0,0.35)'} fontWeight={'bold'}><MdPhone /></Text>
                                 <Text color={'black'} fontWeight={'bold'} px={2}>{user.phone}</Text>
                             </Box>
-                        </Box>
-                        <Box w={'100%'} display={'flex'} alignItems={'center'} gap={2} justifyContent={'center'} my={3}>
-                            <Button colorScheme='blue' size={'sm'}>{user.isSeller ? "Devenir Client" : "Devenire Vendeur"}</Button>
-                            <Menu>
+                            <Menu >
                                 <MenuButton size={'sm'} as={Button} bg={'#C3C3C3'} leftIcon={<IoIosMore />} >More</MenuButton>
                                 <MenuList zIndex={200} border={'solid 1px rgba(0,0,0,0.4)'}>
 
@@ -77,7 +74,6 @@ const ProfilePage = () => {
                                 </MenuList>
                             </Menu>
                         </Box>
-
                         <Box w={'90%'} maxW={900} mx={'auto'} my={4} p={5}>
                             <Box display={'flex'} alignItems={'center'}>
                                 <IoIosStar fontSize={'30px'} color='#e1ad01' />
@@ -94,7 +90,7 @@ const ProfilePage = () => {
                                 <Heading as={'h3'} size={'md'} ml={2}>Mes Annonces</Heading>
                             </Box>
                             <Box bg={'white'} display={'flex'} alignItems={'center'} gap={2} flexWrap={'wrap'} justifyContent={'center'}>
-                        
+
                                 {user.posts.length > 0 ? (user.posts.map(post => <Post key={post.id} id={post.id} title={post.title} description={post.description} media={post.property.media} price={post.property.price} status={post.property.status} surface={post.property.surface} isOwn={true} />)) : <Text color={'GrayText'} mt={2} ml={4}>Pas D'annonces Publier</Text>}
                             </Box>
                         </Box>)}

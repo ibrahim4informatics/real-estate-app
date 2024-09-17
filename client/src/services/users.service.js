@@ -2,8 +2,8 @@ import axios from "./config/axios.conf"
 
 const getUser = () => new Promise((resovle, reject) => {
 
-    axios.get('/api/users').then(res => res.status === 200 && res)
-        .catch(err => err.response)
+    axios.get('/api/users').then(res => res.status === 200 && resovle(res))
+        .catch(err => reject(err.response))
 
 })
 
@@ -18,7 +18,7 @@ const changeEmail = (email, password) => new Promise((resolve, reject) => {
     axios.patch('/api/users/change-email', { email, password }).then(res => resolve(res)).catch(err => reject(err.response));
 })
 
-const changePassword = (old_password, confirm,new_password) => new Promise((resolve, reject) => {
+const changePassword = (old_password, confirm, new_password) => new Promise((resolve, reject) => {
     axios.patch('/api/users/change-password', { old_password, new_password, confirm }).then(res => resolve(res)).catch(err => reject(err.response));
 })
 
